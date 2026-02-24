@@ -1,0 +1,7 @@
+JSX
+
+- We use camel case in jsx
+- only data and aria label uses dashes -
+
+for css styling we use styles = {{}} because if we use simple style="whatever" it senses it as a prop so we use {} to pass in other types of values like numebrs/booleans so we pass yet another obj{} to actually define the style so, in a nutshell
+styles = {{backgroundColor: "red"}}
