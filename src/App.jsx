@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Counter from "./Counter";
 import Input from "./Input";
 import UserCard from "./UserCard";
+import TodoList from "./TodoList";
 // import Name from "./Name";
 // import TodoList from "./TodoList";
 // import TodolistItem from "./TodolistItem";
@@ -84,24 +85,48 @@ import UserCard from "./UserCard";
 
 // export default App;
 
-function App() {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState(0);
+// function App() {
+//   const [name, setName] = useState("");
+//   const [age, setAge] = useState(0);
 
-  useEffect(() => {
-    console.log("age changed", age);
-  }, [age]);
+//   useEffect(() => {
+//     console.log("age changed", age);
+//   }, [age]);
+//   return (
+//     <>
+//       <input value={name} onChange={(e) => setName(e.target.value)} />
+//       <div>
+//         <button onClick={() => setAge(age - 1)}>-</button>
+//         {age}
+//         <button onClick={() => setAge(age + 1)}>+</button>
+//       </div>
+//       <div>
+//         my name is {name} and I am {age} years old
+//       </div>
+//     </>
+//   );
+// }
+
+// export default App;
+
+// function App() {
+//   const [show, setShow] = useState(true);
+//   return (
+//     <>
+//       <button onClick={() => setShow((prev) => !prev)}>Toggle</button>
+//       {show && <TodoList />}
+//     </>
+//   );
+// }
+
+// export default App;
+
+import StopWatch from "../StopWatch";
+
+function App() {
   return (
     <>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
-      <div>
-        <button onClick={() => setAge(age - 1)}>-</button>
-        {age}
-        <button onClick={() => setAge(age + 1)}>+</button>
-      </div>
-      <div>
-        my name is {name} and I am {age} years old
-      </div>
+      <StopWatch />
     </>
   );
 }
