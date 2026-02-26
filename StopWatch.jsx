@@ -23,6 +23,8 @@ function StopWatch() {
       <button onClick={() => setStartCount(!startCount)}>
         {startCount ? "Stop" : "Start"}
       </button>
+      <button onClick={() => setTime(0)}>Reset</button>
+      <button onClick={() => setStartCount(false)}>Pause</button>
     </>
   );
 }
