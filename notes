@@ -11,3 +11,7 @@ styles = {{backgroundColor: "red"}}
 whenever you use {} it executes the js code.
 
 Props:
+
+---
+
+Strict Mode tests the code for side effects. by stress testing your useStates or useEffects. It is purely dev tool. Dosen't go into the production.
