@@ -1,5 +1,8 @@
 // // exercise 1: div with the class large and the id largeDiv with the text say "Hi"
 
+import { useState } from "react";
+import useLocalStorage from "./useLocalStorage";
+
 // import { use, useEffect } from "react";
 // import useFetch from "./useFetch";
 
@@ -249,25 +252,53 @@
 
 // export default App;
 
-import React from "react";
-import useArray from "./useArray";
-const initialArray = [1, 2, 3, 4, 5];
+// import React from "react";
+// import useArray from "./useArray";
+// const initialArray = [1, 2, 3, 4, 5];
 
-function App() {
-  const { array, set, push, filter, remove, clear, reset } =
-    useArray(initialArray);
+// function App() {
+//   const { array, set, push, filter, remove, clear, reset } =
+//     useArray(initialArray);
+
+//   return (
+//     <>
+//       <div>{array.join(", ")}</div>
+//       <button onClick={() => set([4, 5, 6])}>Set to [4, 5, 6]</button>
+//       <button onClick={() => push(6)}>Push 6</button>
+//       <button onClick={() => filter((x) => x % 2 === 0)}>Filter even</button>
+//       <button onClick={() => remove(0)}>Remove first element</button>
+//       <button onClick={clear}>Clear</button>
+//       <button onClick={reset}>Reset</button>
+//     </>
+//   );
+// }
+
+// export default App;
+
+export default function App() {
+  const [firstName, setFirstName, lastName, setLastName] = useLocalStorage();
 
   return (
     <>
-      <div>{array.join(", ")}</div>
-      <button onClick={() => set([4, 5, 6])}>Set to [4, 5, 6]</button>
-      <button onClick={() => push(6)}>Push 6</button>
-      <button onClick={() => filter((x) => x % 2 === 0)}>Filter even</button>
-      <button onClick={() => remove(0)}>Remove first element</button>
-      <button onClick={clear}>Clear</button>
-      <button onClick={reset}>Reset</button>
+      <div>
+        <label htmlFor="firstName">First Name</label>
+        <input
+          type="text"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="First Name"
+        />
+      </div>
+      <div>
+        <label htmlFor="lastName">Last Name</label>
+        <input
+          type="text"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Last Name"
+        />
+      </div>
+      <button onClick={() => console.log(firstName, lastName)}>Submit</button>
     </>
   );
 }
-
-export default App;
