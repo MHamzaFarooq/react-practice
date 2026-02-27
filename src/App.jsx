@@ -1,7 +1,7 @@
 // // exercise 1: div with the class large and the id largeDiv with the text say "Hi"
 
-import { useState } from "react";
-import useLocalStorage from "./useLocalStorage";
+import { useState, useRef, use, useEffect } from "react";
+// import useLocalStorage from "./useLocalStorage";
 
 // import { use, useEffect } from "react";
 // import useFetch from "./useFetch";
@@ -275,30 +275,100 @@ import useLocalStorage from "./useLocalStorage";
 
 // export default App;
 
+// export default function App() {
+//   const [firstName, setFirstName, lastName, setLastName] = useLocalStorage();
+
+//   return (
+//     <>
+//       <div>
+//         <label htmlFor="firstName">First Name</label>
+//         <input
+//           type="text"
+//           value={firstName}
+//           onChange={(e) => setFirstName(e.target.value)}
+//           placeholder="First Name"
+//         />
+//       </div>
+//       <div>
+//         <label htmlFor="lastName">Last Name</label>
+//         <input
+//           type="text"
+//           value={lastName}
+//           onChange={(e) => setLastName(e.target.value)}
+//           placeholder="Last Name"
+//         />
+//       </div>
+//       <button onClick={() => console.log(firstName, lastName)}>Submit</button>
+//     </>
+//   );
+// }
+
+// import React from "react";
+
+// export default function App() {
+//   const inputRef = useRef();
+//   function handleSubmit(e) {
+//     e.preventDefault();
+//     if (inputRef.current.value === "") {
+//       alert("input is empty");
+//       return;
+//     }
+//     console.log(inputRef.current.value);
+//   }
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <input ref={inputRef} type="text" />
+//       <button type="submit">Submit</button>
+//     </form>
+//   );
+// }
+
+import React from "react";
+
 export default function App() {
-  const [firstName, setFirstName, lastName, setLastName] = useLocalStorage();
+  const [email, setEmail] = useState("");
+  const [showWarning, setShowWarning] = useState(false);
+
+  const passwordRef = useRef();
+
+  useEffect(() => {
+    if (email.endsWith("@webdevsimplified.com")) {
+      setShowWarning(false);
+    } else {
+      setShowWarning(true);
+    }
+  }, [email]);
+
+  function handleSubmit(e) {
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+    e.preventDefault();
+    if (passwordRef.current.value.match(passwordRegex)) {
+      alert("Form submitted successfully!");
+    } else {
+      alert("Password does not meet requirements.");
+    }
+  }
 
   return (
-    <>
-      <div>
-        <label htmlFor="firstName">First Name</label>
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          placeholder="First Name"
-        />
-      </div>
-      <div>
-        <label htmlFor="lastName">Last Name</label>
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          placeholder="Last Name"
-        />
-      </div>
-      <button onClick={() => console.log(firstName, lastName)}>Submit</button>
-    </>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      {showWarning && (
+        <div className="warning">
+          Please enter a valid webdevsimplified.com email address.
+        </div>
+      )}
+      <label htmlFor="">Password</label>
+      <input id="password" type="password" ref={passwordRef} required />
+
+      <button type="submit">Submit</button>
+    </form>
   );
 }
