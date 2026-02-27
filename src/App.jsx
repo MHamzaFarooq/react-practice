@@ -1,7 +1,7 @@
 // // exercise 1: div with the class large and the id largeDiv with the text say "Hi"
 
-import { use, useEffect } from "react";
-import useFetch from "./useFetch";
+// import { use, useEffect } from "react";
+// import useFetch from "./useFetch";
 
 // import { use, useEffect, useState } from "react";
 // import Counter from "./Counter";
@@ -225,25 +225,48 @@ import useFetch from "./useFetch";
 
 // export default App;
 
+// function App() {
+//   const { data, isLoading, isError } = useFetch(
+//     "https://jsonplaceholder.typicode.com/comments",
+//   );
+
+//   if (isLoading) {
+//     return <div>Loading...</div>;
+//   }
+
+//   if (isError) {
+//     return <div>Error fetching data</div>;
+//   }
+
+//   return (
+//     <div>
+//       {data.map((comment) => (
+//         <div key={comment.id}>{comment.name}</div>
+//       ))}
+//     </div>
+//   );
+// }
+
+// export default App;
+
+import React from "react";
+import useArray from "./useArray";
+const initialArray = [1, 2, 3, 4, 5];
+
 function App() {
-  const { data, isLoading, isError } = useFetch(
-    "https://jsonplaceholder.typicode.com/comments",
-  );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching data</div>;
-  }
+  const { array, set, push, filter, remove, clear, reset } =
+    useArray(initialArray);
 
   return (
-    <div>
-      {data.map((comment) => (
-        <div key={comment.id}>{comment.name}</div>
-      ))}
-    </div>
+    <>
+      <div>{array.join(", ")}</div>
+      <button onClick={() => set([4, 5, 6])}>Set to [4, 5, 6]</button>
+      <button onClick={() => push(6)}>Push 6</button>
+      <button onClick={() => filter((x) => x % 2 === 0)}>Filter even</button>
+      <button onClick={() => remove(0)}>Remove first element</button>
+      <button onClick={clear}>Clear</button>
+      <button onClick={reset}>Reset</button>
+    </>
   );
 }
 
