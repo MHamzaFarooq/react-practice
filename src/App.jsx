@@ -1,7 +1,6 @@
 // // exercise 1: div with the class large and the id largeDiv with the text say "Hi"
 
-import { use } from "react";
-import { useForm } from "react-hook-form";
+import { useReducer } from "react";
 
 // import { useState, useRef, use, useEffect } from "react";
 // import useLocalStorage from "./useLocalStorage";
@@ -376,32 +375,63 @@ import { useForm } from "react-hook-form";
 //   );
 // }
 
+// export default function App() {
+//   const { register, handleSubmit, formState } = useForm();
+//   const { errors } = formState;
+//   return (
+//     <form
+//       style={{
+//         display: "flex",
+//         flexDirection: "column",
+//         maxWidth: "300px",
+//         gap: "16px",
+//       }}
+//       onSubmit={handleSubmit((data) => console.log(data))}
+//     >
+//       <input
+//         {...register("firstName", {
+//           required: "First name is required",
+//           maxLength: 45,
+//         })}
+//         placeholder="First Name"
+//       />
+//       {errors.firstName?.message}
+//       <input
+//         {...register("lastName", { required: "Last name is required" })}
+//         placeholder="Last Name"
+//       />
+//       <input type="submit" value="Submit" />
+//     </form>
+//   );
+// }
+
+function reducer(state, { type, payload }) {
+  switch (type) {
+    case "increment":
+      return { ...state, count: state.count + 1 };
+    case "decrement":
+      return { ...state, count: state.count - 1 };
+    case "addStep":
+      return { ...state, count: 0 + payload };
+    default:
+      throw new Error("Invalid action type");
+  }
+}
+
+const initialState = {
+  count: 0,
+};
+
 export default function App() {
-  const { register, handleSubmit, formState } = useForm();
-  const { errors } = formState;
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <form
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "300px",
-        gap: "16px",
-      }}
-      onSubmit={handleSubmit((data) => console.log(data))}
-    >
-      <input
-        {...register("firstName", {
-          required: "First name is required",
-          maxLength: 45,
-        })}
-        placeholder="First Name"
-      />
-      {errors.firstName?.message}
-      <input
-        {...register("lastName", { required: "Last name is required" })}
-        placeholder="Last Name"
-      />
-      <input type="submit" value="Submit" />
-    </form>
+    <>
+      <button onClick={() => dispatch({ type: "increment" })}>+</button>
+      {state.count}
+      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+      <button onClick={() => dispatch({ type: "addStep", payload: 10 })}>
+        Add 10
+      </button>
+    </>
   );
 }
