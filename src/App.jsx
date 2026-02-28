@@ -1,6 +1,9 @@
 // // exercise 1: div with the class large and the id largeDiv with the text say "Hi"
 
-import { useState, useRef, use, useEffect } from "react";
+import { use } from "react";
+import { useForm } from "react-hook-form";
+
+// import { useState, useRef, use, useEffect } from "react";
 // import useLocalStorage from "./useLocalStorage";
 
 // import { use, useEffect } from "react";
@@ -324,51 +327,81 @@ import { useState, useRef, use, useEffect } from "react";
 //   );
 // }
 
-import React from "react";
+// import React from "react";
+
+// export default function App() {
+//   const [email, setEmail] = useState("");
+//   const [showWarning, setShowWarning] = useState(false);
+
+//   const passwordRef = useRef();
+
+//   useEffect(() => {
+//     if (email.endsWith("@webdevsimplified.com")) {
+//       setShowWarning(false);
+//     } else {
+//       setShowWarning(true);
+//     }
+//   }, [email]);
+
+//   function handleSubmit(e) {
+//     const passwordRegex =
+//       /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+//     e.preventDefault();
+//     if (passwordRef.current.value.match(passwordRegex)) {
+//       alert("Form submitted successfully!");
+//     } else {
+//       alert("Password does not meet requirements.");
+//     }
+//   }
+
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <label htmlFor="email">Email</label>
+//       <input
+//         type="email"
+//         id="email"
+//         value={email}
+//         onChange={(e) => setEmail(e.target.value)}
+//       />
+//       {showWarning && (
+//         <div className="warning">
+//           Please enter a valid webdevsimplified.com email address.
+//         </div>
+//       )}
+//       <label htmlFor="">Password</label>
+//       <input id="password" type="password" ref={passwordRef} required />
+
+//       <button type="submit">Submit</button>
+//     </form>
+//   );
+// }
 
 export default function App() {
-  const [email, setEmail] = useState("");
-  const [showWarning, setShowWarning] = useState(false);
-
-  const passwordRef = useRef();
-
-  useEffect(() => {
-    if (email.endsWith("@webdevsimplified.com")) {
-      setShowWarning(false);
-    } else {
-      setShowWarning(true);
-    }
-  }, [email]);
-
-  function handleSubmit(e) {
-    const passwordRegex =
-      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
-    e.preventDefault();
-    if (passwordRef.current.value.match(passwordRegex)) {
-      alert("Form submitted successfully!");
-    } else {
-      alert("Password does not meet requirements.");
-    }
-  }
-
+  const { register, handleSubmit, formState } = useForm();
+  const { errors } = formState;
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email">Email</label>
+    <form
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "300px",
+        gap: "16px",
+      }}
+      onSubmit={handleSubmit((data) => console.log(data))}
+    >
       <input
-        type="email"
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        {...register("firstName", {
+          required: "First name is required",
+          maxLength: 45,
+        })}
+        placeholder="First Name"
       />
-      {showWarning && (
-        <div className="warning">
-          Please enter a valid webdevsimplified.com email address.
-        </div>
-      )}
-      <label htmlFor="">Password</label>
-      <input id="password" type="password" ref={passwordRef} required />
-
-      <button type="submit">Submit</button>
+      {errors.firstName?.message}
+      <input
+        {...register("lastName", { required: "Last name is required" })}
+        placeholder="Last Name"
+      />
+      <input type="submit" value="Submit" />
     </form>
   );
 }
