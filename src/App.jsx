@@ -1,6 +1,8 @@
 // // exercise 1: div with the class large and the id largeDiv with the text say "Hi"
 
-import { useReducer } from "react";
+import { useRef, useState, createContext } from "react";
+
+// import { useReducer } from "react";
 
 // import { useState, useRef, use, useEffect } from "react";
 // import useLocalStorage from "./useLocalStorage";
@@ -405,33 +407,89 @@ import { useReducer } from "react";
 //   );
 // }
 
-function reducer(state, { type, payload }) {
-  switch (type) {
-    case "increment":
-      return { ...state, count: state.count + 1 };
-    case "decrement":
-      return { ...state, count: state.count - 1 };
-    case "addStep":
-      return { ...state, count: 0 + payload };
-    default:
-      throw new Error("Invalid action type");
-  }
-}
+// function reducer(state, { type, payload }) {
+//   switch (type) {
+//     case "increment":
+//       return { ...state, count: state.count + 1 };
+//     case "decrement":
+//       return { ...state, count: state.count - 1 };
+//     case "addStep":
+//       return { ...state, count: state.count + payload };
+//     default:
+//       throw new Error("Invalid action type");
+//   }
+// }
 
-const initialState = {
-  count: 0,
-};
+// const initialState = {
+//   count: 0,
+
+// };
+
+// export default function App() {
+//   const [state, dispatch] = useReducer(reducer, initialState);
+//   return (
+//     <>
+//       <button onClick={() => dispatch({ type: "increment" })}>+</button>
+//       {state.count}
+//       <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+//       <button onClick={() => dispatch({ type: "addStep", payload: 10 })}>
+//         Add 10
+//       </button>
+//     </>
+//   );
+// }
+
+// useContext practice
+
+// import React, { useState, createContext } from "react";
+// import Child from "./Child";
+
+// export const NameContext = createContext();
+
+// export default function App() {
+//   const [name, setName] = useState("Hamza");
+//   return (
+//     <NameContext.Provider value={{ name, setName }}>
+//       <div>
+//         <Child />
+//       </div>
+//     </NameContext.Provider>
+//   );
+// }
+import { v4 as uuidv4 } from "uuid";
+import TodoList from "./TodoList";
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [todos, setTodos] = useState([]);
+
+  const todoRef = useRef(null);
+
+  function addTodo() {
+    if (todoRef.current.value === "") {
+      alert("Input is empty");
+      return;
+    }
+    setTodos([
+      ...todos,
+      { id: uuidv4(), value: todoRef.current.value, isCompleted: false },
+    ]);
+    todoRef.current.value = "";
+  }
+
   return (
     <>
-      <button onClick={() => dispatch({ type: "increment" })}>+</button>
-      {state.count}
-      <button onClick={() => dispatch({ type: "decrement" })}>-</button>
-      <button onClick={() => dispatch({ type: "addStep", payload: 10 })}>
-        Add 10
-      </button>
+      <div>
+        <TodoList todos={todos} setTodos={setTodos} todoRef={todoRef} />
+      </div>
+      <div
+        style={{ display: "flex", flexDirection: "column", maxWidth: "300px" }}
+      >
+        <label htmlFor="todo">Add New Todo</label>
+        <input id="todo" type="text" ref={todoRef} />
+        <button id="addBtn" onClick={addTodo}>
+          Add Todo
+        </button>
+      </div>
     </>
   );
 }
